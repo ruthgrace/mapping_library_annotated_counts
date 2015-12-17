@@ -56,40 +56,42 @@ my %fullIDs;
 my %counts;
 foreach my $mappedSample (@mappedSamples) {
 	$sample = $mappedSample;
-	$sample =~ s/\/$//; # remove trailing slash
-	$sample = (split(/\//,$sample))[-1];
-	$sample =~ s/_map$//;
-	$countFile = "${mappedSample}/${sample}_CDS_counts.txt";
-	%fullIDs = ();
-	%counts = ();
-	open (COUNTS, "< $countFile") or die "Could not open $countFile\n";
-	$firstline = 1;
-	while(defined (my $l = <COUNTS>)) {
-		chomp ($l);
-		if ($firstline) {
-			$firstline = 0;
-		}
-		elsif (length($l)>0) {
-			$id = substr($l, 0, index($l, '_'));
-			if (!exists($fullIDs{$id})) {
-				$fullIDs{$id} = ( split('\t', $l ))[0];
+	if (index($sample, ".txt") == -1) {
+		$sample =~ s/\/$//; # remove trailing slash
+		$sample = (split(/\//,$sample))[-1];
+		$sample =~ s/_map$//;
+		$countFile = "${mappedSample}/${sample}_CDS_counts.txt";
+		%fullIDs = ();
+		%counts = ();
+		open (COUNTS, "< $countFile") or die "Could not open $countFile\n";
+		$firstline = 1;
+		while(defined (my $l = <COUNTS>)) {
+			chomp ($l);
+			if ($firstline) {
+				$firstline = 0;
 			}
-			$counts{$id} = ( split('\t', $l ))[ -1 ];
+			elsif (length($l)>0) {
+				$id = substr($l, 0, index($l, '_'));
+				if (!exists($fullIDs{$id})) {
+					$fullIDs{$id} = ( split('\t', $l ))[0];
+				}
+				$counts{$id} = ( split('\t', $l ))[ -1 ];
+			}
+		}
+		close COUNTS;
+		# prepend sample name onto header
+		unshift @header, $sample;
+		# for each annotation refseq, prepend 0 or count onto value, tab separated, add refseq full ID value hash if doesn't exist
+		for my $key (keys %annotatedSeqs) {
+			if (exists($counts{$key})) {
+				$annotatedSeqs{$key} = "$counts{$key}\t$annotatedSeqs{$key}";
+			}
+			else {
+				$annotatedSeqs{$key} = "0\t$annotatedSeqs{$key}";
+			}
 		}
 	}
-	close COUNTS;
-	# prepend sample name onto header
-	unshift @header, $sample;
-	# for each annotation refseq, prepend 0 or count onto value, tab separated, add refseq full ID value hash if doesn't exist
-	for my $key (keys %annotatedSeqs) {
-		if (exists($counts{$key})) {
-			$annotatedSeqs{$key} = "$counts{$key}\t$annotatedSeqs{$key}";
-		}
-		else {
-			$annotatedSeqs{$key} = "0\t$annotatedSeqs{$key}";
-		}
-	}
-} 
+}
 
 # print out full refseq with counts & annotations
 open(OUT, '>', $outfile) or die "Could not open file '$outfile' $!";
@@ -104,5 +106,3 @@ for my $key (keys %annotatedSeqs) {
 	}
 	print OUT "\t$annotatedSeqs{$key}\n";
 }
-close OUT;
-
