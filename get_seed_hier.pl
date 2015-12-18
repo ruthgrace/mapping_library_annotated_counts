@@ -77,7 +77,8 @@ chomp ($line);
 #	and each subsys4 could have multiple hierarchies (subsystem2role file)
 foreach (keys(%data)){
 	print "$data{$_}\t$hold[1]\t$hold[2]\t$hold[0]\n" if  $hold[-1] eq $subsys4{$_};	#subsystems2role column order is: subsys3, subsys1, subsys2, subsys4
-	# print refseq line (with subsys4), and the rest of the hierarchy for every refseq with a subsys4 matching the current line
+	print "$data{$_}\t\t\t\n" if  $hold[-1] ne $subsys4{$_};	# just print subsys4 if the rest of the hierarchy isn't there
+# print refseq line (with subsys4), and the rest of the hierarchy for every refseq with a subsys4 matching the current line
 	
 }
 	# ONLY the hierarchies that are in the $input file will be printed.
