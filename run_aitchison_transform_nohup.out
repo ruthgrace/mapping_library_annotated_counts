@@ -1,1 +1,11 @@
 nohup: ignoring input
+[1] "starting aitchison transform"
+[1] "data successfully read in"
+[1] "number of subjects is 20"
+[1] "data weighted by Aitchison transform"
+[1] "Aitchison-transformed data length-weighted"
+[1] "extracted rows with unique group/refseq_id combinations"
+[1] "unique subsys/refID combos sorted by group"
+[1] "extracting Aitchison transformed totals"
+[1] "done extracting Aitchison transformed totals."
+[1] "writing output"
