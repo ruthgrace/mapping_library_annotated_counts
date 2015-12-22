@@ -158,7 +158,18 @@ aitchison.transform.reads <- function(filename="formatted_readcounts_subsyshier.
 	}
 	
 	# file should have columns for refseq_id, length, subjects, and grouping, in that order
-	originaldata <- read.table(filename, header = TRUE, sep= "\t", stringsAsFactors=F, quote = "", check.names = FALSE, comment.char = "")
+	originaldata <- ""
+	result = tryCatch({
+			originaldata <<- read.table(filename, header = TRUE, sep= "\t", stringsAsFactors=F, quote = "", check.names = FALSE, comment.char = "",fill=TRUE)
+		}, error = function(e) {
+			print(e)
+			print("Trying to read data again with row.names=NULL")
+			originaldata <<- read.table(filename, header = TRUE, sep= "\t", stringsAsFactors=F, quote = "", check.names = FALSE, comment.char = "",fill=TRUE,row.names=NULL)  
+			lastsubjectindex <<- lastsubjectindex + 1
+			groupindex <<- groupindex + 1
+			firstsubjectindex <<- firstsubjectindex + 1
+		})
+	write.table(originaldata,file="aitchison_input_data.txt",sep="\t",quote=FALSE)
 
 	# d is data that will be messed with. Original data is left alone, just in case.
 	d <- originaldata
