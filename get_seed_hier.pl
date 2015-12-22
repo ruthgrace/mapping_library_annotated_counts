@@ -49,8 +49,8 @@ chomp ($line);
 	my @hold = split (/\t/, $line);
 	if ($line !~ /^id/ && $line !~ /^refseq/ && $line !~ /^subsys4/){
 #		$data{$hold[$s4col]} = $line;				# lookup by subsys4
-		$data{$hold[1]} = $line;					# data lookup by refseqID
-		$subsys4{$hold[1]} = $hold[$s4col];			# subsys4 lookup by refseqID
+		$data{$hold[0]} = $line;					# data lookup by refseqID
+		$subsys4{$hold[0]} = $hold[$s4col];			# subsys4 lookup by refseqID
 #print "$hold[-1]\n";
 	}elsif ($line =~ /^id/ || $line =~ /^refseq/ || $line =~ /^subsys4/ || $line =~ /^\t/){		# Get the subsys4 col by name
 		$header = $line;
@@ -76,16 +76,28 @@ chomp ($line);
 #The foreach will be stupidly slow but I can't think of another way right now: Each subsys4 could have multiple refseqs (input file)
 #	and each subsys4 could have multiple hierarchies (subsystem2role file)
 foreach (keys(%data)){
-	print "$data{$_}\t$hold[1]\t$hold[2]\t$hold[0]\n" if  $hold[-1] eq $subsys4{$_};	#subsystems2role column order is: subsys3, subsys1, subsys2, subsys4
-	print "$data{$_}\t\t\t\n" if  $hold[-1] ne $subsys4{$_};	# just print subsys4 if the rest of the hierarchy isn't there
-# print refseq line (with subsys4), and the rest of the hierarchy for every refseq with a subsys4 matching the current line
-	
+	if ($hold[-1] eq $subsys4{$_}) {
+		print "$data{$_}\t$hold[1]\t$hold[2]\t$hold[0]\n" if  $hold[-1] eq $subsys4{$_};
+		$seen{$_} = "yes";
+	}
 }
-	# ONLY the hierarchies that are in the $input file will be printed.
-	$seen{$hold[-1]} = "";
 }close INPUT;
-
-
+my $tempsubsys4;
+open (NONMATCHEDOUTPUT, "> non_matched_refseqs.txt") or die "Could not open non_matched_refseqs.txt: $!\n";
+foreach(keys(%data)) {
+	if (not exists $seen{$_}) {
+		$tempsubsys4 = $data{$_};
+		$tempsubsys4 =~ s/$_//;
+		$tempsubsys4 =~ s/^\s+|\s+$//g;
+		if ($tempsubsys4 ne "none" && $tempsubsys4 ne "NA") {
+			print "$data{$_}\t\t\t\n";
+		}
+		else {
+			print NONMATCHEDOUTPUT "$data{$_}\n";
+		}
+	}
+}
+close NONMATCHEDOUTPUT;
 
 
 
