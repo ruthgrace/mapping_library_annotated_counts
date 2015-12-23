@@ -11,32 +11,24 @@ my $counts = $ARGV[0];
 my $refseqs = $ARGV[1];
 my $out = $ARGV[2];
 
-# read in all refseq lengths
-my %seqlengths;
-my $id;
-my $seqlength = -1;
+# read in all full refseq ids
+my %fullids;
 open (REFSEQFILE, "< $refseqs") or die "Could not open $refseqs\n";
 while(defined (my $l = <REFSEQFILE>)) {
 	chomp ($l);
 	if ($l =~ /^>/) {
-		if ($seqlength != -1) {
-			$seqlengths{$id} = $seqlength;
-		}
-		$seqlength = 0;
-		$id = $l;
+		$fullid = $l;
 		# strip > character
-		$id =~ s/^.//;
+		$fullid =~ s/^.//;
 		# trim
-		$id =~ s/^\s+|\s+$//g;
+		$fullid =~ s/^\s+|\s+$//g;
 		# add space on end in case there isn't a space after the unique number in the id
+		$id = $fullid;
 		$id =~ s/$/ /;
 		$id = substr($id, 0, index($id, ' '));
-	}
-	else {
-		$seqlength = $seqlength + length($l);
+		$fullids{$id} = $fullid;
 	}
 }
-$seqlengths{$id} = $seqlength;
 close REFSEQFILE;
 
 my @countlineitems;
@@ -53,11 +45,16 @@ while(defined (my $l = <COUNTFILE>)) {
 		if (@countlineitems == 2) {
 			$id = $countlineitems[0];
 			$id =~ s/^\s+|\s+$//g;
-			if (exists $seqlengths{$id}) {
-				print OUTFILE "$id\t$seqlengths{$id}\t$countlineitems[1]\n";
+			if ($id =~ /^[0-9]*$/) {
+				if (exists $fullids{$id}) {
+					print OUTFILE "$fullids{$id}\t$countlineitems[1]\n";
+				}
+				else {
+					print "Couldn't find full refseq for id $id\n";
+				}
 			}
 			else {
-				print "Couldn't find refseq for line $l\n";
+				print OUTFILE "$l\n";
 			}
 		} else {
 			print "Couldn't parse line $l\n";
