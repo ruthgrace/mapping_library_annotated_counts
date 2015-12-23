@@ -22,10 +22,12 @@ while(defined (my $l = <REFSEQFILE>)) {
 		$fullid =~ s/^.//;
 		# trim
 		$fullid =~ s/^\s+|\s+$//g;
-		# add space on end in case there isn't a space after the unique number in the id
+		# replace spaces with underscores
+		$fullid =~ s/ /_/g;
+		# add underscore on end in case the ID is by itself 
 		$id = $fullid;
-		$id =~ s/$/ /;
-		$id = substr($id, 0, index($id, ' '));
+		$id =~ s/$/_/;
+		$id = substr($id, 0, index($id, '_'));
 		$fullids{$id} = $fullid;
 	}
 }
@@ -39,6 +41,8 @@ while(defined (my $l = <COUNTFILE>)) {
 	chomp ($l);
 	if ($firstline) {
 		$firstline = 0;
+		# print header
+		print OUTFILE "$l\n";
 	}
 	else {
 		@countlineitems = split(/\t/, $l, 2);
