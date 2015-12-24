@@ -15,12 +15,17 @@ my $out = $ARGV[2];
 my %seqlengths;
 my $id;
 my $seqlength = -1;
+my $numseqs = 0;
 open (REFSEQFILE, "< $refseqs") or die "Could not open $refseqs\n";
 while(defined (my $l = <REFSEQFILE>)) {
 	chomp ($l);
 	if ($l =~ /^>/) {
 		if ($seqlength != -1) {
 			$seqlengths{$id} = $seqlength;
+			$numseqs = $numseqs + 1;
+		}
+		else {
+			print "Didn't process data at seqlength $seqlength and id $id\n";
 		}
 		$seqlength = 0;
 		$id = $l;
@@ -28,9 +33,11 @@ while(defined (my $l = <REFSEQFILE>)) {
 		$id =~ s/^.//;
 		# trim
 		$id =~ s/^\s+|\s+$//g;
-		# add space on end in case there isn't a space after the unique number in the id
-		$id =~ s/$/ /;
-		$id = substr($id, 0, index($id, ' '));
+		# replace spaces with underscores
+		$id =~ s/ /_/g;
+		# add underscore on end in case there isn't one after the unique number in the id
+		$id =~ s/$/_/;
+		$id = substr($id, 0, index($id, '_'));
 	}
 	else {
 		$seqlength = $seqlength + length($l);
@@ -38,6 +45,8 @@ while(defined (my $l = <REFSEQFILE>)) {
 }
 $seqlengths{$id} = $seqlength;
 close REFSEQFILE;
+
+print "$numseqs total refseqs processed\n";
 
 my @countlineitems;
 my $firstline = 1;
@@ -55,8 +64,11 @@ while(defined (my $l = <COUNTFILE>)) {
 		if (@countlineitems == 2) {
 			$id = $countlineitems[0];
 			$id =~ s/^\s+|\s+$//g;
+			$id =~ s/ /_/g;
+			$id =~ s/$/_/;
+			$id = substr($id, 0, index($id, '_'));
 			if (exists $seqlengths{$id}) {
-				print OUTFILE "$id\t$seqlengths{$id}\t$countlineitems[1]\n";
+				print OUTFILE "$countlineitems[0]\t$seqlengths{$id}\t$countlineitems[1]\n";
 			}
 			else {
 				print "Couldn't find refseq for line $l\n";
