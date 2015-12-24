@@ -75,7 +75,7 @@ aldexformat <- function(subsys4,subjects) {
 diffex.inputformat.extractAitchisontotals <- function(holder,firstsubjectindex,lastsubjectindex,groupindex){
 	diffreads <- holder
 
-		subjects <- colnames(diffreads)[firstsubjectindex:(lastsubjectindex)]
+		subjects <- colnames(diffreads)[c(firstsubjectindex:lastsubjectindex)]
 	#get columns of original data
 	subject_cols <- c(firstsubjectindex:(lastsubjectindex))
 	#get non-duplicated groupings
@@ -96,7 +96,7 @@ diffex.inputformat.extractAitchisontotals <- function(holder,firstsubjectindex,l
 	
 	
 	#get sample names
-	subjects <- colnames(diffreads)[firstsubjectindex:(lastsubjectindex)]
+	subjects <- colnames(diffreads)[c(firstsubjectindex:lastsubjectindex)]
 
 	#get indices of Aitchison-transformed data
 	diffreads_transformed_subjects_col <- which(colnames(diffreads) %in% subjects)
@@ -192,7 +192,7 @@ aitchison.transform.reads <- function(filename="formatted_readcounts_subsyshier.
 		# Aitchison transform, includes summing data to 1
 		
 		
-		d[, firstsubjectindex:lastsubjectindex] <- apply(d[, firstsubjectindex:lastsubjectindex], 2, function(x) diffex.inputformat.aitchison.mean(x))
+		d[, c(firstsubjectindex:lastsubjectindex)] <- apply(d[, c(firstsubjectindex:lastsubjectindex)], 2, function(x) diffex.inputformat.aitchison.mean(x))
 		print("data weighted by Aitchison transform")
 		
 		
@@ -216,7 +216,7 @@ aitchison.transform.reads <- function(filename="formatted_readcounts_subsyshier.
 		
 		subsys4[3:ncol(subsys4)] <- t(as.data.frame(apply(subsys4[3:ncol(subsys4)], 1, function(x) x/columnsums)))
 		
-		totalreads <- apply(originaldata[, firstsubjectindex:lastsubjectindex], 2, sum)
+		totalreads <- apply(originaldata[, c(firstsubjectindex:lastsubjectindex)], 2, sum)
 		
 		subsys4[3:ncol(subsys4)] <- t(as.data.frame(apply(subsys4[3:ncol(subsys4)], 1, function(x) x*totalreads)))
 		
