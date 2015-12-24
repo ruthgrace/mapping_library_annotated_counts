@@ -47,6 +47,8 @@ while(defined (my $l = <COUNTFILE>)) {
 	chomp ($l);
 	if ($firstline) {
 		$firstline = 0;
+		my @lineitems = split(/\t/, $l, 2);
+		print OUTFILE "$lineitems[0]\tlength\t$lineitems[1]\n";
 	}
 	else {
 		@countlineitems = split(/\t/, $l, 2);
