@@ -3,6 +3,8 @@ options(error=recover)
 
 library(ALDEx2)
 
+outfolder <- "subsys4_counts"
+
 nash <- c("CL_166_BL_R2_R1", "CL_169_BL_R1", "CL_139_BL_2_R1", "CL_173_2_R1", "CL_144_2_R1", "CL_177_R1", "CL_160_R1", "CL_165_R1", "CL_119_R1", "CL_141_BL_R2_R1")
 
 healthy <- c("HLD_100_R1", "HLD_102_R1", "HLD_111_2_R1", "HLD_80_R1", "HLD_85_R1", "HLD_28_R1", "HLD_47_R1", "HLD_72_2_R1", "HLD_112_R1", "HLD_23_R1")
@@ -14,11 +16,11 @@ conditions <- colnames(d)
 conditions[which(conditions %in% nash)] <- "nash"
 conditions[which(conditions %in% healthy)] <- "healthy"
 
-x <- aldex(d, conditions, mc.samples=2048)
+x <- aldex(d, conditions, mc.samples=128)
 
-write.table(x,file="ALDEx_output_fixed.txt",sep="\t",quote=FALSE)
+write.table(x,file=paste(outfolder, "ALDEx_output.txt",sep="/"),,sep="\t",quote=FALSE)
 
-pdf("ALDEx_output_fixed.pdf")
+pdf(paste(outfolder,"ALDEx_output_fixed.pdf",sep="/"))
 
 aldex.plot(x, type=”MA”)
 aldex.plot(x, type=”MW”)
