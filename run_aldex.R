@@ -20,10 +20,9 @@ x <- aldex(d, conditions, mc.samples=128)
 
 write.table(x,file=paste(outfolder, "ALDEx_output.txt",sep="/"),,sep="\t",quote=FALSE)
 
-pdf(paste(outfolder,"ALDEx_output_fixed.pdf",sep="/"))
+pdf(paste(outfolder,"ALDEx_output.pdf",sep="/"))
 
-aldex.plot(x, type=”MA”)
-aldex.plot(x, type=”MW”)
+aldex.plot(x)
 
 dev.off()
 
