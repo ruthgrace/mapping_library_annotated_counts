@@ -18,11 +18,29 @@ d <- read.table("annotated_counts_with_refseq_length.txt",sep="\t",header=TRUE,r
 #put subsystems in hierarchies with "|||" as separator
 subsys <- paste(d$subsys4, d$subsys1, d$subsys2, d$subsys3, sep="|||")
 
-# TODO aggregate counts for refseqs with the same subsys hierarchy
+subsys.unique <- unique(subsys)
 
-aldex.data <- d[,sampleindexes]
-rownames(aldex.data) <- subsys
-colnames(aldex.data) <- d[,sampleindexes]
+subsys.nums <- c(1:length(subsys.unique))
+
+d.samples.mat <- as.matrix(d[,sampleindexes])
+
+aggregate.subsys.counts <- function(x,d.samples.mat,subsys,subsys.unique) {
+  indices <- which(subsys==subsys.unique[x])
+  if (length(indices) == 1) {
+    return(d.samples.mat[which(subsys==subsys.unique[x]),])
+  }
+  else {
+    return(apply(d.samples.mat[which(subsys==subsys.unique[x]),],2,sum))
+  }
+}
+
+d.aggregate <- sapply(subsys.nums,function(x) { return(aggregate.subsys.counts(x,d.samples.mat,subsys,subsys.unique)) } )
+
+d.aggregate <- t(d.aggregate)
+
+rownames(d.aggregate) <- subsys.unique
+
+aldex.data <- d.aggregate
 
 conditions <- colnames(aldex.data)
 conditions[which(conditions %in% nash)] <- "nash"
