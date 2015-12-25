@@ -46,6 +46,8 @@ conditions <- colnames(aldex.data)
 conditions[which(conditions %in% nash)] <- "nash"
 conditions[which(conditions %in% healthy)] <- "healthy"
 
+aldex.data <- data.frame(aldex.data)
+
 x <- aldex(aldex.data, conditions, mc.samples=128)
 
 write.table(x,file=paste(outfolder, "ALDEx_output_for_stripcharts_merged_subsys.txt",sep="/"),,sep="\t",quote=FALSE)
