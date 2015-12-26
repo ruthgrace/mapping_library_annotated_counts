@@ -40,7 +40,22 @@ d.aggregate <- t(d.aggregate)
 
 rownames(d.aggregate) <- subsys.unique
 
+# TODO aitchison transform
+
 write.table(d.aggregate,file=paste(outfolder, "ALDEx_input_for_stripcharts_merged_subsys.txt",sep="/"),,sep="\t",quote=FALSE)
+
+
+# TODO add lengths
+
+d.transformed <- aitchison.transform.reads(filename="annotated_counts_with_refseq_length.txt",rounded=TRUE, subjects = 20, firstsubjectindex = 3, lastsubjectindex = 22, groupindex = 23,lengthindex=2,outputfolder="subsys4_counts")
+
+
+
+
+
+
+
+
 
 aldex.data <- d.aggregate
 
