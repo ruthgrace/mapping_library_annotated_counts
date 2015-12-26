@@ -24,8 +24,6 @@ subsys.nums <- c(1:length(subsys.unique))
 
 d.samples.mat <- as.matrix(d[,sampleindexes])
 
-# TODO fix this - comes out with too few unique subsys, possibly skips all which have only one match for aggregation
-
 aggregate.subsys.counts <- function(x,d.samples.mat,subsys,subsys.unique) {
   indices <- which(subsys==subsys.unique[x])
   if (length(indices) == 1) {
@@ -50,17 +48,17 @@ conditions <- colnames(aldex.data)
 conditions[which(conditions %in% nash)] <- "nash"
 conditions[which(conditions %in% healthy)] <- "healthy"
 
-aldex.data <- data.frame(aldex.data)
+aldex.data <- data.frame(aldex.data,check.names=FALSE)
 
 x <- aldex(aldex.data, conditions, mc.samples=128)
 
 write.table(x,file=paste(outfolder, "ALDEx_output_for_stripcharts_merged_subsys.txt",sep="/"),,sep="\t",quote=FALSE)
 
-x.separate.subsys <- matrix(NA,nrow=nrow(x),ncol=(ncol(x)+4))
+x.separate.subsys <- data.frame(matrix(NA,nrow=nrow(x),ncol=(ncol(x)+4)))
 
 x.separate.subsys[,c(1:4)] <- t(data.frame(strsplit(rownames(x),split="|||",fixed=TRUE)))
 
-x.separate.subsys[,c(5:ncol(x.separate.subsys))] <- x
+x.separate.subsys[,c(5:ncol(x.separate.subsys))] <- as.matrix(x)
 
 colnames(x.separate.subsys) <- c("subsys4","subsys1","subsys2","subsys3",colnames(x))
 
@@ -69,9 +67,6 @@ write.table(x.separate.subsys,file=paste(outfolder, "ALDEx_output_for_stripchart
 x.ordered <- x.separate.subsys[order(abs(x.separate.subsys$effect),decreasing=TRUE),]
 
 write.table(x.separate.subsys,file=paste(outfolder, "ALDEx_output_for_stripcharts_ordered_by_effect.txt",sep="/"),,sep="\t",quote=FALSE,row.names=FALSE)
-
-write.table(x.ordered,file=paste(outfolder,"ALDEx_output_ordered_by_effect.txt"),sep="\t",quote=FALSE)
-
 
 pdf(paste(outfolder,"ALDEx_all_hierarchies_output.pdf",sep="/"))
 
