@@ -4,7 +4,9 @@ options(error=recover)
 
 library(ALDEx2)
 
-sampleindexes <- c(2:21)
+sampleindexes <- c(3:22)
+
+lengthindex <- 2
 
 outfolder <- "subsys4_counts"
 
@@ -40,22 +42,34 @@ d.aggregate <- t(d.aggregate)
 
 rownames(d.aggregate) <- subsys.unique
 
-# TODO aitchison transform
+#get mean lengths per unique subsys
+aggregate.subsys.lengths <- function(x,d.lengths,subsys,subsys.unique) {
+  indices <- which(subsys==subsys.unique[x])
+  if (length(indices) == 1) {
+    return(d.lengths[which(subsys==subsys.unique[x]),])
+  }
+  else {
+    return(mean(d.lengths[which(subsys==subsys.unique[x]),]))
+  }
+}
+
+d.aggregate <- sapply(subsys.nums,function(x) { return(aggregate.subsys.counts(x,d.samples.mat,subsys,subsys.unique)) } )
+
+
+d.aggregate.lengths <- apply(subsys.nums,function(x) { return(aggregate.subsys.lengths(x,d[,lengthindex],subsys,subsys.unique)) } )
+
+# columns are refseq, length, counts for all samples, group, but here we'll just use subsys for both group and refseq
+d.transform.in <- data.frame(matrix(NA,nrow=length(subsys.unique),ncol=(length(sampleindexes)+3)))
+d.transform.in[,1] <- subsys.unique
+d.transform.in[,ncol(d.transform.in)] <- subsys.unique
+d.transform.in[,2] <- d.aggregate.lengths
+d.transform.in[,3:(3+length(sampleindexes)-1)] <- d.aggregate
+
+write.table(d.transform.in,file=paste(outfolder,"AitchisonTransform_input_for_stripcharts_merged_subsys.txt",sep="/"),quote=FALSE,row.names=FALSE)
+
+d.transformed <- aitchison.transform.reads(filename=paste(outfolder,"AitchisonTransform_input_for_stripcharts_merged_subsys.txt",sep="/"),rounded=TRUE, subjects = 20, firstsubjectindex = 3, lastsubjectindex = 22, groupindex = 23,lengthindex=2,outputfolder="subsys4_counts")
 
 write.table(d.aggregate,file=paste(outfolder, "ALDEx_input_for_stripcharts_merged_subsys.txt",sep="/"),,sep="\t",quote=FALSE)
-
-
-# TODO add lengths
-
-d.transformed <- aitchison.transform.reads(filename="annotated_counts_with_refseq_length.txt",rounded=TRUE, subjects = 20, firstsubjectindex = 3, lastsubjectindex = 22, groupindex = 23,lengthindex=2,outputfolder="subsys4_counts")
-
-
-
-
-
-
-
-
 
 aldex.data <- d.aggregate
 
