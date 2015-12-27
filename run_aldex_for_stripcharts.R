@@ -67,9 +67,21 @@ d.transform.in[,ncol(d.transform.in)] <- subsys.unique
 d.transform.in[,2] <- d.aggregate.lengths
 d.transform.in[,3:(3+length(sampleindexes)-1)] <- d.aggregate
 
-write.table(d.transform.in,file=paste(outfolder,"AitchisonTransform_input_for_stripcharts_merged_subsys.txt",sep="/"),quote=FALSE,row.names=FALSE)
+colnames(d.transform.in) <- c("subsys","length",colnames(d[,sampleindexes]),"subsys")
+
+write.table(d.transform.in,file=paste(outfolder,"AitchisonTransform_input_for_stripcharts_merged_subsys.txt",sep="/"),sep="\t",quote=FALSE,row.names=FALSE)
 
 d.transformed <- aitchison.transform.reads(filename=paste(outfolder,"AitchisonTransform_input_for_stripcharts_merged_subsys.txt",sep="/"),rounded=TRUE, subjects = 20, firstsubjectindex = 3, lastsubjectindex = 22, groupindex = 23,lengthindex=2,outputfolder="subsys4_counts")
+
+### for some reason the aitchison transform method sometimes refuses to run unless you manually run it line by line. here are the relevant input params from the previous line
+# filename = paste(outfolder,"AitchisonTransform_input_for_stripcharts_merged_subsys.txt",sep="/")
+# rounded = TRUE
+# subjects = 20
+# firstsubjectindex = 3
+# lastsubjectindex = 22
+# groupindex = 23
+# lengthindex=2
+# outputfolder="subsys4_counts"
 
 write.table(d.aggregate,file=paste(outfolder, "ALDEx_input_for_stripcharts_merged_subsys.txt",sep="/"),,sep="\t",quote=FALSE)
 
