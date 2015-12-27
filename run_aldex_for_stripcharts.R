@@ -110,7 +110,7 @@ write.table(x.separate.subsys,file=paste(outfolder, "ALDEx_output_for_stripchart
 
 x.ordered <- x.separate.subsys[order(abs(x.separate.subsys$effect),decreasing=TRUE),]
 
-write.table(x.separate.subsys,file=paste(outfolder, "ALDEx_output_for_stripcharts_ordered_by_effect.txt",sep="/"),sep="\t",quote=FALSE,row.names=FALSE)
+write.table(x.ordered,file=paste(outfolder, "ALDEx_output_for_stripcharts_ordered_by_effect.txt",sep="/"),sep="\t",quote=FALSE,row.names=FALSE)
 
 pdf(paste(outfolder,"ALDEx_all_hierarchies_output.pdf",sep="/"))
 
