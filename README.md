@@ -38,14 +38,14 @@ You'll also want to add in the length of your refseqs in your counts file. As wi
 nohup perl add_read_lengths.pl annotated_counts_with_full_refseq_ids.txt /Volumes/data/ruth/refseqs/all_genus_orfs_clustered_at_100_unique_sorted.fa annotated_counts_with_full_refseq_ids.txt annotated_counts_with_refseq_length.txt > add_read_lengths_nohup.out 2>&1&
 ```
 
-Lastly, delete the features for which the counts in all the samples are zero.
+## Aitchison transform & ALDEx analysis
 
-```
-nohup Rscript get_rid_of_nonzero_features.r annotated_counts_with_refseq_length.txt > get_rid_of_nonzero_features_nohup.out 2>&1&
-```
+You can run the aitchison transform script and the ALDEx analysis using the `run_aldex_for_stripcharts.R` script. For some reason sometimes some of the functions can't be run in a batch using the nohup command, but work fine if you run them line by line.
 
-## Aitchison transforming the counts
+The Aitchison transform script amalgamates counts to unique subsys hierarchies. The ALDEx (Anova-Like Differential Expression) analysis calculates the variance within groups for each feature and the variance between groups for each feature to arrive upon an effect size.
 
-TODO fact check this section
+After running this script, you will get some files that are output in intermediate stages (so that you can read them in and start the script from the middle if necessary), plus `ALDEx_all_hierarchies_output.pdf`, which has MA and MW plots for subsys4, and `ALDEx_output_for_stripcharts_ordered_by_effect.txt`, which you can examine to see which features had the greatest measured effect, and which you can also feed into the stripchart plots in the next section.
 
-The Aitchison transform script accounts for multiple subsys4 and does a transform
+## Stripchart plots 
+
+Features can fall into multiple subsys1, subsys2, and subsys3 categories for each subsys4 category, and can be better visualized with stripcharts. Stripcharts can be generated using the `SEED_stripcharts_aldex2_update.R` script.
