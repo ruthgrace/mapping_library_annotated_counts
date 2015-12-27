@@ -9,6 +9,8 @@
 # New data format - A line for each UNIQUE SEED hierarchy
 #------------------------------------------------------------------------------------
 
+# TODO write code to split subsys after ALDEx :P
+
 make_stripchart <- function(inputfile) {
 
 	d <- read.table(file=inputfile, header=TRUE, sep="\t", quote="")
