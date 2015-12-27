@@ -169,7 +169,7 @@ aitchison.transform.reads <- function(filename="formatted_readcounts_subsyshier.
 			groupindex <<- groupindex + 1
 			firstsubjectindex <<- firstsubjectindex + 1
 		})
-	write.table(originaldata,file="aitchison_input_data.txt",sep="\t",quote=FALSE)
+	write.table(originaldata,file=paste(outputfolder,sub(".[^.]*$","_",filename,perl=TRUE),"aitchison_input_data.txt",sep=""),sep="\t",quote=FALSE)
 
 	# d is data that will be messed with. Original data is left alone, just in case.
 	d <- originaldata
