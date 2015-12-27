@@ -83,9 +83,10 @@ d.transformed <- aitchison.transform.reads(filename=paste(outfolder,"AitchisonTr
 # lengthindex=2
 # outputfolder="subsys4_counts"
 
-write.table(d.aggregate,file=paste(outfolder, "ALDEx_input_for_stripcharts_merged_subsys.txt",sep="/"),,sep="\t",quote=FALSE)
+### the aldex input is already output by aitchison.transform function
+# write.table(d.aggregate,file=paste(outfolder, "ALDEx_input_for_stripcharts_merged_subsys.txt",sep="/"),,sep="\t",quote=FALSE)
 
-aldex.data <- d.aggregate
+aldex.data <- d.transformed
 
 conditions <- colnames(aldex.data)
 conditions[which(conditions %in% nash)] <- "nash"
@@ -105,11 +106,11 @@ x.separate.subsys[,c(5:ncol(x.separate.subsys))] <- as.matrix(x)
 
 colnames(x.separate.subsys) <- c("subsys4","subsys1","subsys2","subsys3",colnames(x))
 
-write.table(x.separate.subsys,file=paste(outfolder, "ALDEx_output_for_stripcharts.txt",sep="/"),,sep="\t",quote=FALSE,row.names=FALSE)
+write.table(x.separate.subsys,file=paste(outfolder, "ALDEx_output_for_stripcharts.txt",sep="/"),sep="\t",quote=FALSE,row.names=FALSE)
 
 x.ordered <- x.separate.subsys[order(abs(x.separate.subsys$effect),decreasing=TRUE),]
 
-write.table(x.separate.subsys,file=paste(outfolder, "ALDEx_output_for_stripcharts_ordered_by_effect.txt",sep="/"),,sep="\t",quote=FALSE,row.names=FALSE)
+write.table(x.separate.subsys,file=paste(outfolder, "ALDEx_output_for_stripcharts_ordered_by_effect.txt",sep="/"),sep="\t",quote=FALSE,row.names=FALSE)
 
 pdf(paste(outfolder,"ALDEx_all_hierarchies_output.pdf",sep="/"))
 

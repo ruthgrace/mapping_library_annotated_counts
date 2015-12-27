@@ -228,11 +228,11 @@ aitchison.transform.reads <- function(filename="formatted_readcounts_subsyshier.
 			subsys4[3:ncol(subsys4)] <- apply(subsys4[3:ncol(subsys4)],1:2,round)
 		}
 		
-		write.table(subsys4, file = paste(outputfolder,sub(".[^.]*$","_",filename,perl=TRUE),"AitchisonTransformedData.txt",sep=""), append = FALSE, quote = FALSE, sep = "\t", col.names=NA)
+		write.table(subsys4, file = paste(outputfolder,filenameroot,"AitchisonTransformedData.txt",sep=""), append = FALSE, quote = FALSE, sep = "\t", col.names=NA)
 		
 		subsys4aldexformat <- aldexformat(subsys4,subjects)
 
-		write.table(subsys4aldexformat, file = paste(outputfolder,sub(".[^.]*$","_",filename,perl=TRUE),"AitchisonTransformedDataForALDExInput.txt",sep=""), append = FALSE, quote = FALSE, sep = "\t", col.names=NA)
+		write.table(subsys4aldexformat, file = paste(outputfolder,filenameroot,"AitchisonTransformedDataForALDExInput.txt",sep=""), append = FALSE, quote = FALSE, sep = "\t", col.names=NA)
 		
 	return(subsys4)
 }
