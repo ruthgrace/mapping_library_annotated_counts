@@ -9,15 +9,14 @@
 # New data format - A line for each UNIQUE SEED hierarchy
 #------------------------------------------------------------------------------------
 
-# TODO write code to split subsys after ALDEx :P
+make_stripchart <- function(inputfile,outputfolder=".") {
 
-make_stripchart <- function(inputfile) {
-
-	d <- read.table(file=inputfile, header=TRUE, sep="\t", quote="")
-
-	#d <- read.table(file="aldex_subsys4_hier.txt", header=TRUE, sep="\t", quote="")
-	#d <- read.table(file="/Volumes/rhamnosus/Solid_Dec2010/transcriptome_mapping/meta/ALDEx_1.0.3_May2012/meta/subsys4/ALDEx_fixedsubsys4/0correct_lowconfidence/out_ol0.01rel2_seedhier.txt", header=TRUE, sep="\t", quote="")
-	#subsys4	N4_total	N30_total	B27_total	B31_total	expression.among.q50	expression.within.A.q50	expression.within.B.q50	expression.sample.N4_total.q50	expression.sample.N30_total.q50	expression.sample.B27_total.q50	expression.sample.B31_total.q50	difference.between.q50	difference.within.q50	effect.q50	criteria.significance	criteria.significant	criteria.meaning	criteria.meaningful	sig.both	refseq_id	subsys1	subsys2	subsys3	common_taxonomy
+ ### headers for this file are
+ # [1] "subsys4"         "subsys1"         "subsys2"         "subsys3"        
+ #  [5] "rab.all"         "rab.win.healthy" "rab.win.nash"    "diff.btw"       
+ #  [9] "diff.win"        "effect"          "overlap"         "we.ep"          
+ # [13] "we.eBH"          "wi.ep"           "wi.eBH"        
+ 	d <- read.table(file=inputfile, header=TRUE, sep="\t", quote="",comment.char="")	
 
 	#color for non-DE subsys4
 	base_col="#00000050"
@@ -28,10 +27,8 @@ make_stripchart <- function(inputfile) {
 	diff<-"effect"
 	#d[,col]
 
-
 	#make the x-axis symmetrical based on the highest value
 	xlim <- c(- max(abs(d[,diff])) -0.5, max(abs(d[,diff])) + 0.5)
-
 
 	#----------------
 
@@ -60,7 +57,7 @@ make_stripchart <- function(inputfile) {
 		n_sig <- unique( data.frame( group=d[[g]], absolute=d[,diff])[ cutoffn , ] )
 		no_sig <- unique( data.frame( group=d[[g]], absolute=d[,diff])[nocut,])
 		
-	pdf(file=paste("subsys",i,".pdf",sep=""), width=10, height=(length(groups) / 5))
+	pdf(file=paste(outputfolder,"/","subsys",i,".pdf",sep=""), width=10, height=(length(groups) / 5))
 	#	png(file=paste("subsys",i,".png",sep=""), width=9, height=(length(groups) / 5), units="in", res=300)
 	#height=(length(groups) / 5),
 		
@@ -89,6 +86,6 @@ make_stripchart <- function(inputfile) {
 	# END new data
 	#-----------
 
-
+make_stripchart("subsys4_counts/ALDEx_output_for_stripcharts.txt","subsys4_counts")
 
 
