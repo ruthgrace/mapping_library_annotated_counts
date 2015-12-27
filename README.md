@@ -38,6 +38,12 @@ You'll also want to add in the length of your refseqs in your counts file. As wi
 nohup perl add_read_lengths.pl annotated_counts_with_full_refseq_ids.txt /Volumes/data/ruth/refseqs/all_genus_orfs_clustered_at_100_unique_sorted.fa annotated_counts_with_full_refseq_ids.txt annotated_counts_with_refseq_length.txt > add_read_lengths_nohup.out 2>&1&
 ```
 
+Lastly, delete the features for which the counts in all the samples are zero.
+
+```
+nohup Rscript get_rid_of_nonzero_features.r annotated_counts_with_refseq_length.txt > get_rid_of_nonzero_features_nohup.out 2>&1&
+```
+
 ## Aitchison transforming the counts
 
 TODO fact check this section
