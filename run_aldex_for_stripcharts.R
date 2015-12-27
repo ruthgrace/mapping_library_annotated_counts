@@ -3,6 +3,7 @@
 options(error=recover)
 
 library(ALDEx2)
+source("AitchisonTransform.r")
 
 sampleindexes <- c(3:22)
 
@@ -15,7 +16,11 @@ nash <- c("CL_166_BL_R2_R1", "CL_169_BL_R1", "CL_139_BL_2_R1", "CL_173_2_R1", "C
 healthy <- c("HLD_100_R1", "HLD_102_R1", "HLD_111_2_R1", "HLD_80_R1", "HLD_85_R1", "HLD_28_R1", "HLD_47_R1", "HLD_72_2_R1", "HLD_112_R1", "HLD_23_R1")
 
 # read in fully annotated counts with hierarchies
-d <- read.table("annotated_counts_with_refseq_length.txt",sep="\t",header=TRUE,row.names=1,quote="",comment.char="")
+d <- read.table("annotated_counts_with_refseq_length.txt",sep="\t",header=TRUE,row.names=NULL,quote="",comment.char="")
+
+originaldata <- d
+
+d <- d[which(apply(d[,sampleindexes],1,sum)!=0),]
 
 #put subsystems in hierarchies with "|||" as separator
 subsys <- paste(d$subsys4, d$subsys1, d$subsys2, d$subsys3, sep="|||")
@@ -46,17 +51,14 @@ rownames(d.aggregate) <- subsys.unique
 aggregate.subsys.lengths <- function(x,d.lengths,subsys,subsys.unique) {
   indices <- which(subsys==subsys.unique[x])
   if (length(indices) == 1) {
-    return(d.lengths[which(subsys==subsys.unique[x]),])
+    return(d.lengths[which(subsys==subsys.unique[x])])
   }
   else {
-    return(mean(d.lengths[which(subsys==subsys.unique[x]),]))
+    return(mean(d.lengths[which(subsys==subsys.unique[x])]))
   }
 }
 
-d.aggregate <- sapply(subsys.nums,function(x) { return(aggregate.subsys.counts(x,d.samples.mat,subsys,subsys.unique)) } )
-
-
-d.aggregate.lengths <- apply(subsys.nums,function(x) { return(aggregate.subsys.lengths(x,d[,lengthindex],subsys,subsys.unique)) } )
+d.aggregate.lengths <- sapply(subsys.nums,function(x) { return(aggregate.subsys.lengths(x,d[,lengthindex],subsys,subsys.unique)) } )
 
 # columns are refseq, length, counts for all samples, group, but here we'll just use subsys for both group and refseq
 d.transform.in <- data.frame(matrix(NA,nrow=length(subsys.unique),ncol=(length(sampleindexes)+3)))
@@ -64,8 +66,6 @@ d.transform.in[,1] <- subsys.unique
 d.transform.in[,ncol(d.transform.in)] <- subsys.unique
 d.transform.in[,2] <- d.aggregate.lengths
 d.transform.in[,3:(3+length(sampleindexes)-1)] <- d.aggregate
-
-d.transform.in <- d.transform.in[which(apply(d.transform.in[,3:(3+length(sampleindexes)-1)],1,sum)==0),]
 
 write.table(d.transform.in,file=paste(outfolder,"AitchisonTransform_input_for_stripcharts_merged_subsys.txt",sep="/"),quote=FALSE,row.names=FALSE)
 
