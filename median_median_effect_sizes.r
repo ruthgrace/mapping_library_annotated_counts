@@ -19,8 +19,8 @@ for (i in 1:3) {
 
   subsys.med.med.effect[,1] <- subsys.unique[order(abs(subsys.med.med.effect[,2]),decreasing=TRUE)]
 
-  colnames(subsys.med.med.effect) <- c("median_median_effect")
+  colnames(subsys.med.med.effect) <- c(g,"median_median_effect")
   
-  write.table(subsys.med.med.effect,file=paste(outputfolder,"/",g,"_median_median_effect.txt",sep=""),sep="\t",quote=FALSE)
+  write.table(subsys.med.med.effect,file=paste(outputfolder,"/",g,"_median_median_effect.txt",sep=""),sep="\t",quote=FALSE,row.names=FALSE)
   
 }
