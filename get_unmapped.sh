@@ -9,6 +9,6 @@ do
     echo "samfile is $samfile";
     unmapped=$sample"_unmapped.sam";
     echo "unmapped file is $unmapped";
-    unmappedFasta = $sample"_unmapped.fa";
+    unmappedFasta=$sample"_unmapped.fa";
     echo "unmapped fasta is $unmappedFasta";
 done
