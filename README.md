@@ -49,3 +49,11 @@ After running this script, you will get some files that are output in intermedia
 ## Stripchart plots 
 
 Features can fall into multiple subsys1, subsys2, and subsys3 categories for each subsys4 category, and can be better visualized with stripcharts. Stripcharts can be generated using the `SEED_stripcharts_aldex2_update.R` script.
+
+## Exploring unmapped reads
+
+Check how much of your unmapped reads map to the human genome:
+
+Download the hg19 reference genome from http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
+
+
