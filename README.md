@@ -56,10 +56,27 @@ Check how much of your unmapped reads map to the human genome:
 
 Download the hg19 reference genome from http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
 
+The next script requires seqtk to be installed. You can install it like so:
+
+```
+git clone https://github.com/lh3/seqtk.git
+cd seqtk
+make
+```
+
+Don't forget to add it to your PATH.
+
 Isolate the unmapped sequences and convert to FASTA (give the mapped files directory as the parameter):
+
+```
 ./get_unmapped.sh /Volumes/data/ruth/mapping_data
+```
 
 Concatenate unmapped sequences into one file:
+
+```
+cat /Volumes/data/ruth/mapping_data/*/*.fa > /Volumes/data/ruth/mapping_data/unmapped.fa
+```
 
 Run Bowtie2 against the hg19 human genome reference:
 
