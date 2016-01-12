@@ -4,7 +4,7 @@ for D in `find $dir -type d`
 do
     echo "dir is $D"
     sample=$(basename d);
-    sample=${D::-4};
+    sample=${sample::-4};
     echo "sample is $sample";
     samfile=$sample".sam";
     echo "samfile is $samfile";
