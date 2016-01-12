@@ -1,12 +1,12 @@
 dir=$1;
-dir=${dir%%*( )} # trim trailling newline/whitespace
-echo "the input argument is $dir.\n"
-for D in `find . -type d`
+echo "the input argument is $dir."
+for D in `find $dir -type d`
 do
+    echo "dir is $dir"
     sample=${D::-4};
-    echo "sample is $sample\n";
+    echo "sample is $sample";
     samfile=$sample+".sam";
-    echo "samfile is $samfile\n";
+    echo "samfile is $samfile";
     unmapped=$sample+"_unmapped.sam";
     echo "unmapped file is $unmapped";
     unmappedFasta = $sample+"_unmapped.fa";
