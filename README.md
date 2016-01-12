@@ -56,4 +56,11 @@ Check how much of your unmapped reads map to the human genome:
 
 Download the hg19 reference genome from http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
 
+Isolate the unmapped sequences and convert to FASTA (give the mapped files directory as the parameter):
+./get_unmapped.sh /Volumes/data/ruth/mapping_data
+
+Concatenate unmapped sequences into one file:
+
+Run Bowtie2 against the hg19 human genome reference:
+
 
