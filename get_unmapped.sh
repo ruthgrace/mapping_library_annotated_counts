@@ -2,7 +2,8 @@ dir=$1;
 echo "the input argument is $dir."
 for D in `find $dir -type d`
 do
-    echo "dir is $dir"
+    echo "dir is $D"
+    sample=$(basename d);
     sample=${D::-4};
     echo "sample is $sample";
     samfile=$sample".sam";
