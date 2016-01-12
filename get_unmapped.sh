@@ -3,7 +3,7 @@ echo "the input argument is $dir."
 for D in `find $dir -type d`
 do
     echo "dir is $D"
-    sample=$(basename d);
+    sample=$(basename D);
     echo "sample is $sample after basename";
     sample=${sample::-4};
     echo "sample is $sample";
