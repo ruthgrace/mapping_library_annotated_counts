@@ -1,6 +1,6 @@
-echo "the input argument is $1.\n"
 dir=$1;
 dir=${dir%%*( )} # trim trailling newline/whitespace
+echo "the input argument is $1.\n"
 for D in `find . -type d`
 do
     sample=${D::-4};
