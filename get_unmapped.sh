@@ -5,9 +5,8 @@ do
     sample=$(basename $D);
     sample=${sample::-4};
     samfile=$D"/"$sample".sam";
-    echo "samfile is $samfile";
-    unmapped=$D"/"$sample"_unmapped.sam";
-    echo "unmapped file is $unmapped";
+    unmappedBam=$D"/"$sample"_unmapped.sam";
+    samtools view -b -f 4 $samfile > $unmappedBam
     unmappedFasta=$D"/"$sample"_unmapped.fa";
-    echo "unmapped fasta is $unmappedFasta";
+    samtools bam2fq $unmappedBam | seqtk seq -A > $unmappedFasta
 done
