@@ -6,7 +6,7 @@ do
     sample=${sample::-4};
     samfile=$D"/"$sample".sam";
     unmappedBam=$D"/"$sample"_unmapped.sam";
-    samtools view -b -f 4 $samfile > $unmappedBam
-    unmappedFasta=$D"/"$sample"_unmapped.fa";
-    samtools bam2fq $unmappedBam | seqtk seq -A > $unmappedFasta
+    # samtools view -b -f 4 $samfile > $unmappedBam
+    unmappedFastq=$D"/"$sample"_unmapped.fq";
+    samtools bam2fq $unmappedBam > $unmappedFastq
 done
