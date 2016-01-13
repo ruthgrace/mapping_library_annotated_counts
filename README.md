@@ -99,5 +99,5 @@ sed -i.backup '/^>/ s/ /_/g' all_viruses.ffn
 Build the Bowtie2 index for the viruses
 
 ```
-nohup bowtie2-build -f /Volumes/data/ruth/viruses/all_viruses.ffn ncbi_viruses > bowtie_build_virus_index_nohup.out 2>&1&
+nohup bowtie2-build -f /Volumes/data/ruth/viruses/all_viruses.ffn ncbi_viruses &
 ```
