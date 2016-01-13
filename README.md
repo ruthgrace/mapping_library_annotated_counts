@@ -54,8 +54,6 @@ Features can fall into multiple subsys1, subsys2, and subsys3 categories for eac
 
 Check how much of your unmapped reads map to the human genome:
 
-Download the hg19 reference genome from http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
-
 The next script requires seqtk to be installed. You can install it like so:
 
 ```
@@ -69,15 +67,17 @@ Don't forget to add it to your PATH.
 Isolate the unmapped sequences and convert to FASTA (give the mapped files directory as the parameter):
 
 ```
-./get_unmapped.sh /Volumes/data/ruth/mapping_data
+nohup ./get_unmapped.sh /Volumes/data/ruth/mapping_data > get_unmapped_seqs_nohup.out 2>&1&
 ```
 
 Concatenate unmapped sequences into one file:
 
 ```
-cat /Volumes/data/ruth/mapping_data/*/*.fa > /Volumes/data/ruth/mapping_data/unmapped.fa
+nohup cat /Volumes/data/ruth/mapping_data/*/*.fa > /Volumes/data/ruth/mapping_data/unmapped.fa &
 ```
 
-Run Bowtie2 against the hg19 human genome reference:
+Run Bowtie2 against the hg19 human genome reference. The first parameter is the mapped files directory and the 2nd parameter is the hg19 bowtie index. You can download the hg19 reference genome from http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
 
-
+```
+nohup ./map_to_human.sh /Volumes/data/ruth/mapping_data /Volumes/data/ruth/hg19 > map_to_human_nohup.out 2>&1&
+```
