@@ -70,12 +70,6 @@ Isolate the unmapped sequences and convert to FASTA (give the mapped files direc
 nohup ./get_unmapped.sh /Volumes/data/ruth/mapping_data > get_unmapped_seqs_nohup.out 2>&1&
 ```
 
-Concatenate unmapped sequences into one file:
-
-```
-nohup cat /Volumes/data/ruth/mapping_data/*/*.fa > /Volumes/data/ruth/mapping_data/unmapped.fa &
-```
-
 Run Bowtie2 against the hg19 human genome reference. The first parameter is the mapped files directory and the 2nd parameter is the hg19 bowtie index. You can download the hg19 reference genome from http://bowtie-bio.sourceforge.net/bowtie2/index.shtml
 
 ```
