@@ -101,3 +101,10 @@ Build the Bowtie2 index for the viruses
 ```
 nohup bowtie2-build -f /Volumes/data/ruth/viruses/all_viruses.ffn ncbi_viruses &
 ```
+
+Perform mapping
+
+```
+nohup ./map_to_virus.sh /Volumes/data/ruth/mapping_data /Volumes/data/ruth/virus_bowtie_index/ncbi_viruses > map_to_virus_nohup.out 2>&1&
+
+```
