@@ -52,7 +52,7 @@ Features can fall into multiple subsys1, subsys2, and subsys3 categories for eac
 
 ## Exploring unmapped reads
 
-Check how much of your unmapped reads map to the human genome:
+### Check how much of your unmapped reads map to the human genome
 
 The next script requires seqtk to be installed. You can install it like so:
 
@@ -74,4 +74,30 @@ Run Bowtie2 against the hg19 human genome reference. The first parameter is the 
 
 ```
 nohup ./map_to_human.sh /Volumes/data/ruth/mapping_data /Volumes/data/ruth/hg19/hg19 > map_to_human_nohup.out 2>&1&
+```
+
+### Check how much of your unmapped reads map to viruses
+
+Download the FASTA files for all the virus genomes on NCBI:
+
+```
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/Viruses/all.ffn.tar.gz
+```
+
+Unzip the file. You will get a folder for each genome with one or more .ffn files inside. Concatenate all the .ffn files (I think the strain name is in all the sequence identifiers so I haven't bothered to make sure the identifiers unique):
+
+```
+cat ./*/*.ffn > all_viruses.ffn
+```
+
+Replace all spaces in sequence names with underscores
+
+```
+sed -i.backup '/^>/ s/ /_/g' all_viruses.ffn
+```
+
+Build the Bowtie2 index for the viruses
+
+```
+nohup bowtie2-build -f /Volumes/data/ruth/viruses/all_viruses.ffn ncbi_viruses > bowtie_build_virus_index_nohup.out 2>&1&
 ```
