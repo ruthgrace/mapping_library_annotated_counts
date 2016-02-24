@@ -52,7 +52,7 @@ Features can fall into multiple subsys1, subsys2, and subsys3 categories for eac
 
 ## Exploring unmapped reads
 
-Check how much of your unmapped reads map to the human genome:
+### Check how much of your unmapped reads map to the human genome
 
 The next script requires seqtk to be installed. You can install it like so:
 
@@ -75,3 +75,63 @@ Run Bowtie2 against the hg19 human genome reference. The first parameter is the 
 ```
 nohup ./map_to_human.sh /Volumes/data/ruth/mapping_data /Volumes/data/ruth/hg19/hg19 > map_to_human_nohup.out 2>&1&
 ```
+
+### Check how much of your unmapped reads map to viruses
+
+Download the FASTA files for all the virus genomes on NCBI:
+
+```
+wget ftp://ftp.ncbi.nlm.nih.gov/genomes/Viruses/all.ffn.tar.gz
+```
+
+Unzip the file. You will get a folder for each genome with one or more .ffn files inside. Concatenate all the .ffn files (I think the strain name is in all the sequence identifiers so I haven't bothered to make sure the identifiers unique):
+
+```
+cat ./*/*.ffn > all_viruses.ffn
+```
+
+Replace all spaces in sequence names with underscores
+
+```
+sed -i.backup '/^>/ s/ /_/g' all_viruses.ffn
+```
+
+Build the Bowtie2 index for the viruses
+
+```
+nohup bowtie2-build -f /Volumes/data/ruth/viruses/all_viruses.ffn ncbi_viruses &
+```
+
+Perform mapping
+
+```
+nohup ./map_to_virus.sh /Volumes/data/ruth/mapping_data /Volumes/data/ruth/virus_bowtie_index/ncbi_viruses > map_to_virus_nohup.out 2>&1&
+
+```
+
+### Run analysis on data subsets
+
+I am subsetting the data by carbohydrates and lipids, by SEED subsystem 1 categorization:
+
+```
+nohup awk '$24 == "Carbohydrates" { print $0 }' annotated_counts_with_refseq_length_non_zero_features.txt > annotated_carbohydrate_counts_with_refseq_length.txt 2>&1&
+nohup awk '/Fatty Acids/' annotated_counts_with_refseq_length_non_zero_features.txt > annotated_lipid_counts_with_refseq_length.txt 2>&1&
+```
+
+Delete the first line (that says 'nohup: ignoring input') in `annotated_carbohydrate_counts_with_refseq_length.txt` and `annotated_lipid_counts_with_refseq_length.txt` (I used Vim for this). Add the file header from `annotated_counts_with_refseq_length.txt` to both files:
+
+```
+refseq	length	HLD_85_R1	HLD_80_R1	HLD_72_2_R1	HLD_47_R1	HLD_28_R1	HLD_23_R1	HLD_112_R1	HLD_111_2_R1	HLD_102_R1	HLD_100_R1	CL_177_R1	CL_173_2_R1CL_169_BL_R1	CL_166_BL_R2_R1	CL_165_R1	CL_160_R1	CL_144_2_R1	CL_141_BL_R2_R1	CL_139_BL_2_R1	CL_119_R1	subsys4	subsys1	subsys2	subsys3
+```
+
+Run the ALDEx analysis and create stripcharts
+
+
+Extract the same genes from the analysis with all the genes included for comparison
+
+
+Plot confidence intervals of genes with highest effect size
+
+
+
+
