@@ -141,7 +141,8 @@ subsys4 subsys1 subsys2 subsys3 rab.all rab.win.healthy rab.win.nash    diff.btw
 
 Plot stripcharts for `subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_carbohydrates_only.txt` and `subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_lipids_only.txt` using `SEED_stripcharts_aldex2_update.R`.
 
-Plot confidence intervals of genes with highest effect size. Run in R:
+Plot confidence intervals of genes with highest effect size. To plot confidence intervals, you need to use the version of ALDEx2 at `https://github.com/ruthgrace/ALDEx2` to run analysis. You can clone the repo and install it in R using `	
+install.packages("./ALDEx2/ALDEx2", repos = NULL, type="source")`. Run in R:
 
 ```
 source("confidence_interval_plotting_code.r")
