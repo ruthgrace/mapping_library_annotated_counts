@@ -1,0 +1,7 @@
+	HLD_85_R1	HLD_80_R1	HLD_72_2_R1	HLD_47_R1	HLD_28_R1	HLD_23_R1	HLD_112_R1	HLD_111_2_R1	HLD_102_R1	HLD_100_R1	CL_177_R1	CL_173_2_R1	CL_169_BL_R1	CL_166_BL_R2_R1	CL_165_R1	CL_160_R1	CL_144_2_R1	CL_141_BL_R2_R1	CL_139_BL_2_R1	CL_119_R1
+6-phospho-3-hexuloisomerase|||Carbohydrates|||One-carbon Metabolism|||Formaldehyde_assimilation:_Ribulose_monophosphate_pathway	332	853	525	288	157	1086	1380	2604	747	724	694	207	3633	686	388	250	886	37009	609	2448
+Alpha-1,2-mannosidase|||Carbohydrates|||Monosaccharides|||Mannose_Metabolism	31816	51170	3075	72129	3794	10408	9111	19590	6582	39530	5553	18867	14363	13658	60895	3872	939	105301	1544	501
+Endo-1,4-beta-mannosidase|||Carbohydrates|||Monosaccharides|||Mannose_Metabolism	2105	5319	1296	3135	1201	385	4881	1425	123	1047	674	2197	1713	3560	5216	1057	107	6378	400	24
+Endo-alpha-mannosidase|||Carbohydrates|||Monosaccharides|||Mannose_Metabolism	66	133	10	630	4	125	1	21	38	347	22	31	9	103	36	199	0	20	11	0
+Phosphoglyceromutase|||Carbohydrates|||One-carbon Metabolism|||Serine-glyoxylate_cycle	0	2	2	0	0	1	0	0	0	2	0	0	37	1	0	0	0	16	0	1
+Xylanase|||Carbohydrates|||Monosaccharides|||Xylose_utilization	22210	32097	12660	32063	16827	12575	14452	15054	12959	38156	14328	19180	25548	19005	25367	13724	4974	73350	10970	15798
