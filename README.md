@@ -108,3 +108,30 @@ Perform mapping
 nohup ./map_to_virus.sh /Volumes/data/ruth/mapping_data /Volumes/data/ruth/virus_bowtie_index/ncbi_viruses > map_to_virus_nohup.out 2>&1&
 
 ```
+
+### Run analysis on data subsets
+
+I am subsetting the data by carbohydrates and lipids, by SEED subsystem 1 categorization:
+
+```
+nohup awk '$24 == "Carbohydrates" { print $0 }' annotated_counts_with_refseq_length.txt > annotated_carbohydrate_counts_with_refseq_length.txt 2>&1&
+nohup awk '/Fatty Acids/' annotated_counts_with_refseq_length.txt > annotated_lipid_counts_with_refseq_length.txt 2>&1&
+```
+
+Delete the first line (that says 'nohup: ignoring input') in `annotated_carbohydrate_counts_with_refseq_length.txt` and `annotated_lipid_counts_with_refseq_length.txt` (I used Vim for this). Add the file header from `annotated_counts_with_refseq_length.txt` to both files:
+
+```
+refseq	length	HLD_85_R1	HLD_80_R1	HLD_72_2_R1	HLD_47_R1	HLD_28_R1	HLD_23_R1	HLD_112_R1	HLD_111_2_R1	HLD_102_R1	HLD_100_R1	CL_177_R1	CL_173_2_R1CL_169_BL_R1	CL_166_BL_R2_R1	CL_165_R1	CL_160_R1	CL_144_2_R1	CL_141_BL_R2_R1	CL_139_BL_2_R1	CL_119_R1	subsys4	subsys1	subsys2	subsys3
+```
+
+Run the ALDEx analysis and create stripcharts
+
+
+Extract the same genes from the analysis with all the genes included for comparison
+
+
+Plot confidence intervals of genes with highest effect size
+
+
+
+
