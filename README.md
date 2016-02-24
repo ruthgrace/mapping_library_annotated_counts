@@ -114,8 +114,8 @@ nohup ./map_to_virus.sh /Volumes/data/ruth/mapping_data /Volumes/data/ruth/virus
 I am subsetting the data by carbohydrates and lipids, by SEED subsystem 1 categorization:
 
 ```
-nohup awk '$24 == "Carbohydrates" { print $0 }' annotated_counts_with_refseq_length.txt > annotated_carbohydrate_counts_with_refseq_length.txt 2>&1&
-nohup awk '/Fatty Acids/' annotated_counts_with_refseq_length.txt > annotated_lipid_counts_with_refseq_length.txt 2>&1&
+nohup awk '$24 == "Carbohydrates" { print $0 }' annotated_counts_with_refseq_length_non_zero_features.txt > annotated_carbohydrate_counts_with_refseq_length.txt 2>&1&
+nohup awk '/Fatty Acids/' annotated_counts_with_refseq_length_non_zero_features.txt > annotated_lipid_counts_with_refseq_length.txt 2>&1&
 ```
 
 Delete the first line (that says 'nohup: ignoring input') in `annotated_carbohydrate_counts_with_refseq_length.txt` and `annotated_lipid_counts_with_refseq_length.txt` (I used Vim for this). Add the file header from `annotated_counts_with_refseq_length.txt` to both files:
