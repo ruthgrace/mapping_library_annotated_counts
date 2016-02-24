@@ -124,11 +124,22 @@ Delete the first line (that says 'nohup: ignoring input') in `annotated_carbohyd
 refseq	length	HLD_85_R1	HLD_80_R1	HLD_72_2_R1	HLD_47_R1	HLD_28_R1	HLD_23_R1	HLD_112_R1	HLD_111_2_R1	HLD_102_R1	HLD_100_R1	CL_177_R1	CL_173_2_R1CL_169_BL_R1	CL_166_BL_R2_R1	CL_165_R1	CL_160_R1	CL_144_2_R1	CL_141_BL_R2_R1	CL_139_BL_2_R1	CL_119_R1	subsys4	subsys1	subsys2	subsys3
 ```
 
-Run the ALDEx analysis and create stripcharts
+Run the ALDEx analysis using `run_aldex_for_stripcharts.r` (you'll have to run it line by line since for some reason the `AitchisonTransform.r` script doesn't work unless it's run line by line). Create stripcharts using `SEED_stripcharts_aldex2_update.R`.
 
+Extract the same genes from the analysis with all the genes included for comparison (in the `subsys4_counts` folder)
 
-Extract the same genes from the analysis with all the genes included for comparison
+```
+nohup awk '$2 == "Carbohydrates" { print $0 }' subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect.txt > subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_carbohydrates_only.txt 2>&1&
+nohup awk '/Fatty Acids/' subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect.txt > subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_lipids_only.txt 2>&1&
+```
 
+Add the file header to `subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_carbohydrates_only.txt` and `subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_lipids_only.txt`.
+
+```
+subsys4 subsys1 subsys2 subsys3 rab.all rab.win.healthy rab.win.nash    diff.btw        diff.win        diff.btw.025    diff.btw.975    diff.win.025    diff.win.975    effect  effect.025      effect.975      overlap we.ep   we.eBH  wi.ep   wi.eBH
+```
+
+Plot stripcharts for `subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_carbohydrates_only.txt` and `subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_lipids_only.txt` using `SEED_stripcharts_aldex2_update.R`.
 
 Plot confidence intervals of genes with highest effect size
 
