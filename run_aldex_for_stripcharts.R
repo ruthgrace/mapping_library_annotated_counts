@@ -9,14 +9,18 @@ sampleindexes <- c(3:22)
 
 lengthindex <- 2
 
-outfolder <- "subsys4_counts"
+# outfolder <- "subsys4_counts"
+# outfolder <- "carbohydrates"
+ outfolder <- "lipids"
 
 nash <- c("CL_166_BL_R2_R1", "CL_169_BL_R1", "CL_139_BL_2_R1", "CL_173_2_R1", "CL_144_2_R1", "CL_177_R1", "CL_160_R1", "CL_165_R1", "CL_119_R1", "CL_141_BL_R2_R1")
 
 healthy <- c("HLD_100_R1", "HLD_102_R1", "HLD_111_2_R1", "HLD_80_R1", "HLD_85_R1", "HLD_28_R1", "HLD_47_R1", "HLD_72_2_R1", "HLD_112_R1", "HLD_23_R1")
 
 # read in fully annotated counts with hierarchies
-d <- read.table("annotated_counts_with_refseq_length_non_zero_features.txt",sep="\t",header=TRUE,row.names=NULL,quote="",comment.char="")
+# d <- read.table("annotated_counts_with_refseq_length_non_zero_features.txt",sep="\t",header=TRUE,row.names=NULL,quote="",comment.char="")
+# d <- read.table("annotated_carbohydrate_counts_with_refseq_length.txt",sep="\t",header=TRUE,row.names=NULL,quote="",comment.char="")
+ d <- read.table("annotated_lipid_counts_with_refseq_length.txt",sep="\t",header=TRUE,row.names=NULL,quote="",comment.char="")
 
 originaldata <- d
 
@@ -81,18 +85,21 @@ d.transformed <- aitchison.transform.reads(filename=paste(outfolder,"AitchisonTr
 # lastsubjectindex = 22
 # groupindex = 23
 # lengthindex=2
-# outputfolder="subsys4_counts"
+# outputfolder=outfolder
 
 ### the aldex input is already output by aitchison.transform function
 # write.table(d.aggregate,file=paste(outfolder, "ALDEx_input_for_stripcharts_merged_subsys.txt",sep="/"),,sep="\t",quote=FALSE)
 
 aldex.data <- d.transformed
 
+aldex.data <- data.frame(aldex.data,check.names=FALSE)
+rownames(aldex.data) <- aldex.data$subsys
+dropColumns <- c("indices","subsys")
+aldex.data <- aldex.data[,which(!(colnames(aldex.data) %in% dropColumns))]
+
 conditions <- colnames(aldex.data)
 conditions[which(conditions %in% nash)] <- "nash"
 conditions[which(conditions %in% healthy)] <- "healthy"
-
-aldex.data <- data.frame(aldex.data,check.names=FALSE)
 
 x <- aldex(aldex.data, conditions, mc.samples=128)
 
