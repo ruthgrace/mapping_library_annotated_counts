@@ -57,11 +57,11 @@ make_stripchart <- function(inputfile,outputfolder=".") {
 		n_sig <- unique( data.frame( group=d[[g]], absolute=d[,diff])[ cutoffn , ] )
 		no_sig <- unique( data.frame( group=d[[g]], absolute=d[,diff])[nocut,])
 		
-	pdf(file=paste(outputfolder,"/","subsys",i,".pdf",sep=""), width=10, height=(length(groups) / 5))
+	pdf(file=paste(outputfolder,"/","subsys",i,".pdf",sep=""))
 	#	png(file=paste("subsys",i,".png",sep=""), width=9, height=(length(groups) / 5), units="in", res=300)
 	#height=(length(groups) / 5),
 		
-		par(mar=c(6,10,0.5,0.5), cex.axis=0.8, cex.lab=0.6, las=1)
+		par(mar=c(5,20,0.5,0.5), cex.axis=0.8, cex.lab=0.6, las=1)
 	#c(bottom, left, top, right)
 		stripchart(absolute ~ group, data=no_sig, method="jitter", jitter=0.25, pch=20, col=base_col, xlim=xlim, cex=0.8)
 		
@@ -91,5 +91,3 @@ make_stripchart("carbohydrates/ALDEx_output_for_stripcharts.txt","carbohydrates"
 make_stripchart("lipids/ALDEx_output_for_stripcharts.txt","lipids")
 
 
-inputfile <- "carbohydrates/ALDEx_output_for_stripcharts.txt"
-outputfolder <- "carbohydrates"
