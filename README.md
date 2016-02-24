@@ -141,7 +141,16 @@ subsys4 subsys1 subsys2 subsys3 rab.all rab.win.healthy rab.win.nash    diff.btw
 
 Plot stripcharts for `subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_carbohydrates_only.txt` and `subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_lipids_only.txt` using `SEED_stripcharts_aldex2_update.R`.
 
-Plot confidence intervals of genes with highest effect size
+Plot confidence intervals of genes with highest effect size. Run in R:
+
+```
+source("confidence_interval_plotting_code.r")
+confidence_interval_plot("carbohydrates/ALDEx_output_for_stripcharts_ordered_by_effect.txt", "carbohydrates/carbohydrates_only_analysis_top_effect_size_with_confidence_intervals.pdf")
+confidence_interval_plot("lipids/ALDEx_output_for_stripcharts_ordered_by_effect.txt", "lipids/lipids_only_analysis_top_effect_size_with_confidence_intervals.pdf")
+confidence_interval_plot("subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_carbohydrates_only.txt", "subsys4_counts/carbohydrates/carbohydrates_from_full_analysis_top_effect_size_with_confidence_intervals.pdf")
+confidence_interval_plot("subsys4_counts/ALDEx_output_for_stripcharts_ordered_by_effect_lipids_only.txt", "subsys4_counts/lipids/lipids_from_full_analysis_top_effect_size_with_confidence_intervals.pdf")
+```
+
 
 
 
