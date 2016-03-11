@@ -34,6 +34,6 @@ confidence_interval_plot <- function(input, output) {
   plot(NA, xlim=c(0,(numFeatures+1)),ylim=c((min(effect.025) - 1),(max(effect.975) + 1)),main="Confidence intervals for functions with high effect size",xlab="Functional annotation",ylab="Effect size",xaxt='n')
   points(x_axis, effect,ann=FALSE,pch=19)
   arrows(x_axis, effect.025, x_axis, effect.975, length=0.05, angle=90, code=3)
-  text(x =label_x_axis, y = par("usr")[3] + 17, labels = function_labels,srt = 90, pos = 1, xpd = TRUE, cex=0.5)
+  text(x =label_x_axis, y = par("usr")[3] + (abs(min(effect.025)) + (max(effect.975)/2)), labels = function_labels,srt = 90, pos = 1, xpd = TRUE, cex=0.5)
   dev.off()
 }
